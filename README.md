@@ -1,6 +1,6 @@
 # STGnet — Heterogeneous Graph Model for Cell-type Deconvolution
 
-This repository provides an end-to-end pipeline on the **MOB** dataset to build a heterogeneous graph with **real spots / pseudo spots / genes**, and to train the **STGnet** model (a custom HeteroGAT-style architecture) to predict cell-type proportions for real spots.
+This repository provides an end-to-end pipeline on the **MOB** dataset to build a heterogeneous graph with **real spots / pseudo spots / genes**, and to train the **STGnet** model (a gene-aware HeteroGAT-style architecture) to predict cell-type proportions for real spots.
 
 ## Code & files
 
@@ -32,7 +32,7 @@ conda env create -f environment.yml
 conda activate stgraph-mob
 ```
 
-> Note: the CUDA/CPU builds of `torch` and `dgl` depend on your GPU and CUDA version. If installation fails, install PyTorch first (per the official instructions) and then install the matching DGL build (see FAQ).
+> Note: the CUDA/CPU builds of `torch` and `dgl` depend on your GPU and CUDA version. If installation fails, install PyTorch first (per the official instructions) and then install the matching DGL build.
 
 ### 2) (Optional) GPU installation notes
 
@@ -69,13 +69,13 @@ Open and run `main_mob.ipynb`. It will:
   - real ↔ real (fusing expression similarity and spatial proximity)
   - real ↔ pseudo (MNN / similarity-based)
   - spot ↔ gene (column-normalize then threshold edges)
-- export key CSV files to `STgraph/MOB/500/` (example outputs):
-  - `STgraph/MOB/500/pseudo_spot_expression.csv`
-  - `STgraph/MOB/500/pseudo_spot_label_fractions.csv`
-  - `STgraph/MOB/500/adj_real_real.csv`
-  - `STgraph/MOB/500/adj_real_pseudo.csv`
-  - `STgraph/MOB/500/adj_realspot_gene.csv`
-  - `STgraph/MOB/500/adj_pseuspot_gene.csv`
+- export key CSV files to `code/MOB/500/` (example outputs):
+  - `code/MOB/500/pseudo_spot_expression.csv`
+  - `code/MOB/500/pseudo_spot_label_fractions.csv`
+  - `code/MOB/500/adj_real_real.csv`
+  - `code/MOB/500/adj_real_pseudo.csv`
+  - `code/MOB/500/adj_realspot_gene.csv`
+  - `code/MOB/500/adj_pseuspot_gene.csv`
 
 ### Step B: Train the heterograph model & predict (`code/MOB/500/base_v1.ipynb`)
 
@@ -92,6 +92,10 @@ After training, it will write to `code/MOB/500/`:
 
 - `base_v1.csv`: predicted cell-type fractions for real spots (rows = spots, columns = cell types)
 
+## Outputs & reproducibility
+
+- `base_v1.ipynb` sets random seeds (PyTorch/NumPy/CUDA) to improve reproducibility.
+- Different machines / CUDA / cuDNN versions may still lead to small numerical differences.
 ## Outputs & reproducibility
 
 - `base_v1.ipynb` sets random seeds (PyTorch/NumPy/CUDA) to improve reproducibility.
