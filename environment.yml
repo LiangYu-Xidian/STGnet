@@ -1,0 +1,20 @@
+name: stgraph-mob
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.9,<3.12
+  - pip
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - anndata
+  - scanpy
+  - jupyterlab
+  - ipykernel
+  - pip:
+      # Install torch + dgl separately if you need a specific CUDA build.
+      # If you are on CPU-only, you can `pip install torch dgl` after env creation.
+      - tqdm
